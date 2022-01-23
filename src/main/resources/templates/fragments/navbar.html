@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+</head>
+<body>
+<div class="navbar" th:fragment="navbar">
+    <a href="/">CS</a>
+    <div class="dropdown">
+        <button class="dropbtn">Add records
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/student/create">Student</a>
+            <a href="/teacher/create">Teacher</a>
+            <a href="/subject/create">Subject</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">View records
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/">All records</a>
+            <a href="/records/students-and-disciplines">Students and disciplines</a>
+            <a href="/records/students-and-credits">Students and their credits</a>
+            <a href="/records/teachers-and-subjects">Teachers and their subjects</a>
+            <a href="/records/most-enrolled-subjects">Most enrolled subjects</a>
+            <a href="/records/top-three-teachers">Teachers with the most enrolled students</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

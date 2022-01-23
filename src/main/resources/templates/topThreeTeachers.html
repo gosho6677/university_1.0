@@ -1,0 +1,19 @@
+<h1 class="title">Top 3 teachers with the most enrolled students</h1>
+<div class="table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Number of enrolled students</th>
+        </tr>
+        {{#each teachers}}
+        <tr>
+            <td>{{full_name}}</td>
+            <td>
+                {{total_students}}
+            </td>
+        </tr>
+        {{else}}
+        <h2>No teachers yet ...</h2>
+        {{/each}}
+    </table>
+</div>

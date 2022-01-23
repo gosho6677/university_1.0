@@ -1,0 +1,17 @@
+<h1 class="title">Top 3 most enrolled subjects</h1>
+<div class="table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Number of enrolled students</th>
+        </tr>
+        {{#each subjects}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{total_students}}</td>
+        </tr>
+        {{else}}
+        <h2>No subjects yet...</h2>
+        {{/each}}
+    </table>
+</div>

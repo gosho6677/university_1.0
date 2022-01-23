@@ -1,0 +1,23 @@
+<h1 class="title">Students and credits</h1>
+<div class="table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Credits</th>
+        </tr>
+        {{#each students}}
+            <tr>
+                <td>{{full_name}}</td>
+                <td>
+                    {{#if total_credits}}
+                    {{total_credits}}
+                    {{else}}
+                    <p>0</p>
+                    {{/if}}
+                </td>
+            </tr>
+        {{else}}
+        <h2>No students ...</h2>
+        {{/each}}
+    </table>
+</div>

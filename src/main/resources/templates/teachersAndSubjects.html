@@ -1,0 +1,19 @@
+<h1 class="title">Teachers and subjects</h1>
+<div class="table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Subject: Number of students</th>
+        </tr>
+        {{#each teachers}}
+        <tr>
+            <td>{{full_name}}</td>
+            <td>
+                {{subjects}}
+            </td>
+        </tr>
+        {{else}}
+        <h2>No teachers yet...</h2>
+        {{/each}}
+    </table>
+</div>

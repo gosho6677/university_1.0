@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <h1 class="title">All records</h1>
+
+    <div class="table">
+        <h2>Teachers table</h2>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Name</th>
+                <th>Number of taught subjects</th>
+            </tr>
+            <tr th:each="t: ${teachers}">
+                <td th:text="${t.title}"></td>
+                <td th:text="${t.firstName} + ' ' + ${t.lastName}"></td>
+                <td th:text="${t.taughtSubjects} ?: 'UNKNOWN'"></td>
+            </tr>
+            <p th:if="${teachers == null}">No teachers in database. <a href="/records/create/teacher">Please add some...</a></p>
+
+        </table>
+    </div>
+
+    <div class="table">
+        <h2>Students table</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Year in college</th>
+            </tr>
+            <tr th:each="s: ${students}">
+                <td th:text="${s.firstName} + ' ' + ${s.lastName}"></td>
+                <td th:text="${s.yearInCollege}"></td>
+            </tr>
+            <p th:if="${students == null}">No students in database. <a href="/records/create/student">Please add some...</a></p>
+        </table>
+    </div>
+</main>
+</body>
+
+</html>

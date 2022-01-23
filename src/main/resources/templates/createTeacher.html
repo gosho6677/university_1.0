@@ -1,20 +1,41 @@
-<div class="container">
-    <h2 class="title">Create Teacher</h2>
-    <form method="POST">
-        <label for="title">Title</label>
-        <select id="title" name="title">
-            <option value="Assistant">Assistant</option>
-            <option value="Senior Assistant">Senior assistant</option>
-            <option value="Associate Professor">Associate Professor</option>
-            <option value="Professor">Professor</option>
-        </select>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-        <label for="fname">First Name</label>
-        <input type="text" id="fname" name="first_name" placeholder="Your name..">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
 
-        <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="last_name" placeholder="Your last name..">
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <div class="container">
+        <h2 class="title">Create Teacher</h2>
+        <form method="POST" th:action="@{/teacher/create}">
+            <label for="title">Title</label>
+            <select id="title" name="title">
+                <option value="Assistant">Assistant</option>
+                <option value="Senior Assistant">Senior assistant</option>
+                <option value="Associate Professor">Associate Professor</option>
+                <option value="Professor">Professor</option>
+            </select>
 
-        <input type="submit" value="Submit">
-    </form>
-</div>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Your name..">
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Your last name..">
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</main>
+</body>
+
+</html>

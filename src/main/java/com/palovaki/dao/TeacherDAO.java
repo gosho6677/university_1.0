@@ -5,8 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +25,7 @@ public class TeacherDAO implements Dao<Teacher> {
 
     @Override
     public List<Teacher> getAll() {
-        String sql = "SELECT * FROM teachers";
+        String sql = "SELECT * FROM teachers;";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
@@ -66,7 +64,16 @@ public class TeacherDAO implements Dao<Teacher> {
 
     @Override
     public void save(Teacher teacher) {
+        String sql = """
+                    INSERT INTO teachers(title, first_name, last_name)
+                    VALUES(?, ?, ?);
+                """;
 
+        jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, teacher.getTitle());
+            ps.setString(2, teacher.getFirstName());
+            ps.setString(3, teacher.getLastName());
+        });
     }
 
     @Override

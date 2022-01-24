@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class StudentDAO implements Dao<Student> {
+public class StudentDAO implements DAO<Student> {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -55,5 +55,31 @@ public class StudentDAO implements Dao<Student> {
     @Override
     public void delete(Long id) {
 
+    }
+
+    public List<Student> getStudentsAndDisciplines() {
+        String sql = """
+                        SELECT s.student_id,
+                            s.first_name, s.last_name,
+                            GROUP_CONCAT(sub.name SEPARATOR ', ') as enrolledSubjects
+                        FROM students s
+                        LEFT JOIN enrollments e
+                        ON s.student_id = e.fk_student_id
+                        LEFT JOIN subjects sub
+                        ON sub.subject_id = fk_subject_id
+                        GROUP BY s.student_id;
+                """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Student student = new Student();
+
+            student.setId(rs.getLong("student_id"))
+                    .setEnrolledSubjects(rs.getString("enrolledSubjects"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"));
+
+            System.out.println(student.getEnrolledSubjects());
+            return student;
+        });
     }
 }

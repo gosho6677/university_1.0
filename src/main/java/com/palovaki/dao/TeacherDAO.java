@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class TeacherDAO implements Dao<Teacher> {
+public class TeacherDAO implements DAO<Teacher> {
 
     private final JdbcTemplate jdbcTemplate;
 

@@ -1,28 +1,46 @@
-<h1 class="title">Students and disciplines</h1>
-<div class="table">
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Subjects</th>
-            <th>Actions</th>
-        </tr>
-        {{#each students}}
-        <tr>
-            <td>{{full_name}}</td>
-            <td>
-                {{#if enrolledSubjects}}
-                    {{enrolledSubjects}}
-                {{else}}
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <h1 class="title">Students and disciplines</h1>
+    <div class="table">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Subjects</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="s: ${students}">
+                <td th:text="${s.firstName} + ' ' + ${s.lastName}"></td>
+                <td
+                        th:if="${s.enrolledSubjects != null}"
+                        th:text="${s.enrolledSubjects}"
+                >
+                <td th:if="${s.enrolledSubjects == null}">
                     <p>Student isn't enrolled in any subjects.</p>
-                {{/if}}
-            </td>
-            <td>
-                <a class="button" href="/enroll-to-discipline/{{student_id}}">Add disciplines</a>
-                <a class="button" href="/remove-from-discipline/{{student_id}}">Remove disciplines</a>
-            </td>
-        </tr>
-        {{else}}
-        <p>No students available ...</p>
-        {{/each}}
-    </table>
-</div>
+                </td>
+                <td>
+                    <a class="button" th:href="@{'/enroll-to-discipline/' + ${s.id}}">Add disciplines</a>
+                    <a class="button" th:href="@{'/remove-from-discipline/' + ${s.id}}">Remove disciplines</a>
+                </td>
+            </tr>
+            <p th:if="${students == null}">No students available ...</p>
+        </table>
+    </div>
+</main>
+</body>
+
+</html>

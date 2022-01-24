@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class SubjectDAO implements Dao<Subject> {
+public class SubjectDAO implements DAO<Subject> {
 
     JdbcTemplate jdbcTemplate;
 

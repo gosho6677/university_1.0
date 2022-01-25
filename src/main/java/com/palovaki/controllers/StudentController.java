@@ -3,12 +3,10 @@ package com.palovaki.controllers;
 import com.palovaki.dao.StudentDAO;
 import com.palovaki.dao.SubjectDAO;
 import com.palovaki.models.Student;
+import com.palovaki.models.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class StudentController {
@@ -46,5 +44,14 @@ public class StudentController {
         model.addAttribute("disciplines", subjectDAO.getAvailableSubjectsForStudent(id));
 
         return "enrollStudent";
+    }
+
+    @PostMapping("/enroll-to-discipline/{studId}")
+    public String PostEnrollToDiscipline(@PathVariable String studId, @RequestParam("disciplineId") String disciplineId) {
+        Long studentId = Long.parseLong(studId);
+        Long subjectId = Long.parseLong(disciplineId);
+
+        studentDAO.enrollToDiscipline(studentId, subjectId);
+        return "redirect:/students-and-disciplines";
     }
 }

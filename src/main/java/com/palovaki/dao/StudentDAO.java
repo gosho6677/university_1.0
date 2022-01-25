@@ -93,6 +93,21 @@ public class StudentDAO implements DAO<Student> {
         });
     }
 
+    public void enrollToDiscipline(Long studentId, Long subjectId) {
+        String sql = """
+                    INSERT INTO enrollments(fk_student_id, fk_subject_id)
+                    VALUES(
+                        (SELECT student_id FROM students WHERE student_id = ?),
+                        (SELECT subject_id FROM subjects WHERE subject_id = ?)
+                    );
+                """;
+
+        jdbcTemplate.update(sql, ps -> {
+            ps.setLong(1, studentId);
+            ps.setLong(2, subjectId);
+        });
+    }
+
     @Override
     public void delete(Long id) {
 

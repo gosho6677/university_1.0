@@ -19,8 +19,8 @@ public class TeacherDAO implements DAO<Teacher> {
 
 
     @Override
-    public Optional<Teacher> getById(Long id) {
-        return Optional.empty();
+    public Teacher getById(Long id) {
+        return null;
     }
 
     @Override

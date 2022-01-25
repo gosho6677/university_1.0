@@ -1,23 +1,44 @@
-<div class="container">
-    <h2 class="title">Enroll student to discipline</h2>
-    <form action="/enroll-to-discipline/{{student.student_id}}" method="POST">
-        <label for="first_name">First Name</label>
-        <input type="text" id="first_name" name="first_name" value="{{student.first_name}}" disabled>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-        <label for="last_name">Last Name</label>
-        <input type="text" id="last_name" name="last_name" value="{{student.last_name}}" disabled>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
 
-        <label for="disciplineId">Available disciplines</label>
-        <select id="disciplineId" name="disciplineId">
-            {{#each subjects}}
-            <option value="{{subject_id}}">{{name}} (Credits: {{credits}})</option>
-            {{else}}
-            <option>No available subjects</option>
-            {{/each}}
-        </select>
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <div class="container">
+        <h2 class="title">Enroll student to discipline</h2>
+        <form th:action="@{'/enroll-to-discipline/' + ${student.id}}" method="POST">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" th:value="${student.firstName}" disabled>
 
-        {{#if subjects}}
-        <input type="submit" value="Submit">
-        {{/if}}
-    </form>
-</div>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" th:value="${student.lastName}" disabled>
+
+            <label for="disciplineId">Available disciplines</label>
+            <select id="disciplineId" name="disciplineId">
+                <option
+                        th:each="d: ${disciplines}"
+                        th:value="${d.id}"
+                        th:text="${d.name} + ' (Credits: ' + ${d.credits} + ')'"
+                >
+                </option>
+                <option th:if="${disciplines == null}">No available subjects</option>
+            </select>
+
+            <input th:if="${disciplines != null}" type="submit" value="Submit">
+        </form>
+    </div>
+</main>
+</body>
+
+</html>

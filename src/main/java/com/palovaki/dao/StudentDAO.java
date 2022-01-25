@@ -17,8 +17,22 @@ public class StudentDAO implements DAO<Student> {
     }
 
     @Override
-    public Optional<Student> getById(Long id) {
-        return Optional.empty();
+    public Student getById(Long id) {
+        String sql = """
+                    SELECT student_id, first_name, last_name
+                    FROM students
+                    WHERE student_id = ?
+                """;
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            Student student = new Student();
+
+            student
+                    .setId(rs.getLong("student_id"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"));
+
+            return student;
+        }, id);
     }
 
     @Override
@@ -52,10 +66,7 @@ public class StudentDAO implements DAO<Student> {
         });
     }
 
-    @Override
-    public void delete(Long id) {
 
-    }
 
     public List<Student> getStudentsAndDisciplines() {
         String sql = """
@@ -78,8 +89,12 @@ public class StudentDAO implements DAO<Student> {
                     .setFirstName(rs.getString("first_name"))
                     .setLastName(rs.getString("last_name"));
 
-            System.out.println(student.getEnrolledSubjects());
             return student;
         });
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 }

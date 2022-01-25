@@ -17,8 +17,8 @@ public class SubjectDAO implements DAO<Subject> {
     }
 
     @Override
-    public Optional getById(Long id) {
-        return Optional.empty();
+    public Subject getById(Long id) {
+        return null;
     }
 
     @Override
@@ -38,6 +38,29 @@ public class SubjectDAO implements DAO<Subject> {
             ps.setInt(2, subject.getCredits());
             ps.setLong(3, subject.getTeacherId());
         });
+    }
+
+    public List<Subject> getAvailableSubjectsForStudent(Long studentId) {
+        String sql = """
+                    SELECT subject_id, name, credits
+                    FROM subjects
+                    WHERE subject_id NOT IN (
+                        SELECT sub.subject_id
+                        FROM students st, enrollments e, subjects sub
+                        WHERE st.student_id = e.fk_student_id AND sub.subject_id = e.fk_subject_id AND st.student_id = ?
+                    );
+                """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Subject subject = new Subject();
+
+            subject
+                    .setId(rs.getLong("subject_id"))
+                    .setName(rs.getString("name"))
+                    .setCredits(rs.getInt("credits"));
+
+            return subject;
+        }, studentId);
     }
 
     @Override

@@ -1,23 +1,36 @@
-<h1 class="title">Students and credits</h1>
-<div class="table">
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Credits</th>
-        </tr>
-        {{#each students}}
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <h1 class="title">Students and credits</h1>
+    <div class="table">
+        <table>
             <tr>
-                <td>{{full_name}}</td>
-                <td>
-                    {{#if total_credits}}
-                    {{total_credits}}
-                    {{else}}
-                    <p>0</p>
-                    {{/if}}
-                </td>
+                <th>Name</th>
+                <th>Credits</th>
             </tr>
-        {{else}}
-        <h2>No students ...</h2>
-        {{/each}}
-    </table>
-</div>
+            <tr th:each="st: ${students}">
+                <td th:text="${st.firstName} + ' ' + ${st.lastName}"></td>
+                <td th:if="st.totalCredits != null" th:text="${st.totalCredits}"></td>
+                <td th:if="st.totalCredits == null">0</td>
+            </tr>
+            <h2 th:if="${students == null}">No students ...</h2>
+        </table>
+    </div>
+</main>
+</body>
+
+</html>

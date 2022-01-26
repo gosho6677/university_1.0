@@ -3,7 +3,6 @@ package com.palovaki.controllers;
 import com.palovaki.dao.StudentDAO;
 import com.palovaki.dao.SubjectDAO;
 import com.palovaki.models.Student;
-import com.palovaki.models.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class StudentController {
 
-    private StudentDAO studentDAO;
-    private SubjectDAO subjectDAO;
+    private final StudentDAO studentDAO;
+    private final SubjectDAO subjectDAO;
 
     public StudentController(StudentDAO studentDAO, SubjectDAO subjectDAO) {
         this.studentDAO = studentDAO;
@@ -75,5 +74,11 @@ public class StudentController {
         studentDAO.removeFromDiscipline(studentId, subjectId);
 
         return "redirect:/students-and-disciplines";
+    }
+
+    @GetMapping("/students-and-credits")
+    public String GetStudentsAndTheirCredits(Model model) {
+        model.addAttribute("students", studentDAO.getAllWithTheirCredits());
+        return "studentsAndCredits";
     }
 }

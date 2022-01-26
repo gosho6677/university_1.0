@@ -2,16 +2,14 @@ package com.palovaki.dao;
 
 import com.palovaki.models.Student;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Component;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 @Component
 public class StudentDAO implements DAO<Student> {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public StudentDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -68,7 +66,6 @@ public class StudentDAO implements DAO<Student> {
     }
 
 
-
     public List<Student> getStudentsAndDisciplines() {
         String sql = """
                         SELECT s.student_id,
@@ -103,7 +100,7 @@ public class StudentDAO implements DAO<Student> {
                     );
                 """;
 
-        jdbcUpdateHelper(sql, studentId, subjectId);
+        studentUpdateHelper(sql, studentId, subjectId);
     }
 
     public void removeFromDiscipline(Long studentId, Long subjectId) {
@@ -112,13 +109,37 @@ public class StudentDAO implements DAO<Student> {
                     WHERE fk_student_id = ? AND fk_subject_id = ?;
                 """;
 
-        jdbcUpdateHelper(sql, studentId, subjectId);
+        studentUpdateHelper(sql, studentId, subjectId);
     }
 
-    private void jdbcUpdateHelper(String sql, Long studentId, Long subjectId) {
+    private void studentUpdateHelper(String sql, Long studentId, Long subjectId) {
         jdbcTemplate.update(sql, ps -> {
             ps.setLong(1, studentId);
             ps.setLong(2, subjectId);
+        });
+    }
+
+    public List<Student> getAllWithTheirCredits() {
+        String sql = """
+                    SELECT st.first_name, st.last_name, SUM(sub.credits) as total_credits
+                    FROM students st
+                    LEFT JOIN enrollments e
+                    ON st.student_id = e.fk_student_id
+                    LEFT JOIN subjects sub
+                    ON sub.subject_id = e.fk_subject_id
+                    GROUP BY st.student_id
+                    ORDER BY st.first_name, st.last_name;
+                """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Student student = new Student();
+
+            student
+                    .setTotalCredits(rs.getInt("total_credits"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"));
+
+            return student;
         });
     }
 

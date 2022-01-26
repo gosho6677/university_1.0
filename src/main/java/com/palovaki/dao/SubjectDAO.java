@@ -2,6 +2,7 @@ package com.palovaki.dao;
 
 import com.palovaki.models.Subject;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -51,17 +52,29 @@ public class SubjectDAO implements DAO<Subject> {
                     );
                 """;
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            Subject subject = new Subject();
-
-            subject
-                    .setId(rs.getLong("subject_id"))
-                    .setName(rs.getString("name"))
-                    .setCredits(rs.getInt("credits"));
-
-            return subject;
-        }, studentId);
+        return jdbcTemplate.query(sql, rowMapper, studentId);
     }
+
+    public List<Subject> getEnrolledFromStudentSubjects(Long studentId) {
+        String sql = """
+                    SELECT sub.subject_id, sub.name, sub.credits
+                    FROM students st, enrollments e, subjects sub
+                    WHERE st.student_id = e.fk_student_id AND sub.subject_id = e.fk_subject_id AND st.student_id = ?;
+                """;
+
+        return jdbcTemplate.query(sql, rowMapper, studentId);
+    }
+
+    RowMapper<Subject> rowMapper = (rs, rowNum) -> {
+        Subject subject = new Subject();
+
+        subject
+                .setId(rs.getLong("subject_id"))
+                .setName(rs.getString("name"))
+                .setCredits(rs.getInt("credits"));
+
+        return subject;
+    };
 
     @Override
     public void delete(Long id) {

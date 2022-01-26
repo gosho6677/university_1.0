@@ -2,10 +2,11 @@ package com.palovaki.dao;
 
 import com.palovaki.models.Student;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class StudentDAO implements DAO<Student> {
@@ -102,6 +103,19 @@ public class StudentDAO implements DAO<Student> {
                     );
                 """;
 
+        jdbcUpdateHelper(sql, studentId, subjectId);
+    }
+
+    public void removeFromDiscipline(Long studentId, Long subjectId) {
+        String sql = """
+                    DELETE FROM enrollments
+                    WHERE fk_student_id = ? AND fk_subject_id = ?;
+                """;
+
+        jdbcUpdateHelper(sql, studentId, subjectId);
+    }
+
+    private void jdbcUpdateHelper(String sql, Long studentId, Long subjectId) {
         jdbcTemplate.update(sql, ps -> {
             ps.setLong(1, studentId);
             ps.setLong(2, subjectId);
@@ -110,6 +124,5 @@ public class StudentDAO implements DAO<Student> {
 
     @Override
     public void delete(Long id) {
-
     }
 }

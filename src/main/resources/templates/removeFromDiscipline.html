@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <div class="container">
+        <h2 class="title">Remove student from discipline</h2>
+        <form th:action="@{'/remove-from-discipline/' + ${student.id}}" method="POST">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" th:value="${student.firstName}" disabled>
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" th:value="${student.lastName}" disabled>
+
+            <label for="disciplineId">Enrolled disciplines</label>
+            <select id="disciplineId" name="disciplineId">
+                <option
+                        th:each="disc: ${disciplines}"
+                        th:value="${disc.id}"
+                        th:text="${disc.name} + ' (Credits: ' + ${disc.credits} + ')'"
+                >
+                </option>
+                <option th:if="${disciplines == null}">No enrolled subjects</option>
+
+            </select>
+
+            <input th:if="${disciplines != null}" type="submit" value="Remove">
+        </form>
+    </div>
+</main>
+</body>
+
+</html>

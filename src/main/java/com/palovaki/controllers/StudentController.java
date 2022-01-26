@@ -47,11 +47,33 @@ public class StudentController {
     }
 
     @PostMapping("/enroll-to-discipline/{studId}")
-    public String PostEnrollToDiscipline(@PathVariable String studId, @RequestParam("disciplineId") String disciplineId) {
+    public String PostEnrollToDiscipline(@PathVariable String studId,
+                                         @RequestParam("disciplineId") String disciplineId) {
         Long studentId = Long.parseLong(studId);
         Long subjectId = Long.parseLong(disciplineId);
 
         studentDAO.enrollToDiscipline(studentId, subjectId);
+        return "redirect:/students-and-disciplines";
+    }
+
+    @GetMapping("/remove-from-discipline/{studentId}")
+    public String GetRemoveStudentFromDiscipline(@PathVariable String studentId, Model model) {
+        Long id = Long.parseLong(studentId);
+
+        model.addAttribute("student", studentDAO.getById(id));
+        model.addAttribute("disciplines", subjectDAO.getEnrolledFromStudentSubjects(id));
+
+        return "removeFromDiscipline";
+    }
+
+    @PostMapping("/remove-from-discipline/{studId}")
+    public String PostRemoveStudentFromDiscipline(@PathVariable String studId,
+                                                  @RequestParam("disciplineId") String disciplineId) {
+        Long studentId = Long.parseLong(studId);
+        Long subjectId = Long.parseLong(disciplineId);
+
+        studentDAO.removeFromDiscipline(studentId, subjectId);
+
         return "redirect:/students-and-disciplines";
     }
 }

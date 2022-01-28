@@ -5,6 +5,7 @@ public class Subject {
     private String name;
     private int credits;
     private Long teacherId;
+    private int totalStudents;
 
     public Subject() {
     }
@@ -49,6 +50,15 @@ public class Subject {
 
     public Subject setTeacherId(String teacherId) {
         this.teacherId = Long.parseLong(teacherId);
+        return this;
+    }
+
+    public int getTotalStudents() {
+        return totalStudents;
+    }
+
+    public Subject setTotalStudents(int totalStudents) {
+        this.totalStudents = totalStudents;
         return this;
     }
 

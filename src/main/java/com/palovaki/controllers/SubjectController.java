@@ -30,4 +30,10 @@ public class SubjectController {
         subjectDAO.save(subject);
         return "redirect:/";
     }
+
+    @GetMapping("/most-enrolled-subjects")
+    public String GetTopThreeMostEnrolledSubjects(Model model) {
+        model.addAttribute("subjects", subjectDAO.getTopThreeMostEnrolledSubjects());
+        return "mostEnrolledSubjects";
+    }
 }

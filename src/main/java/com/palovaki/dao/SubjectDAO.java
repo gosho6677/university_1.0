@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class SubjectDAO implements DAO<Subject> {
@@ -65,6 +64,21 @@ public class SubjectDAO implements DAO<Subject> {
         return jdbcTemplate.query(sql, rowMapper, studentId);
     }
 
+
+    public List<Subject> getTopThreeMostEnrolledSubjects() {
+        String sql = """
+                    SELECT sub.subject_id, sub.name, sub.credits,
+                        COUNT(st.student_id) as total_students
+                    FROM enrollments e, students st, subjects sub
+                    WHERE st.student_id = e.fk_student_id AND sub.subject_id = e.fk_subject_id
+                    GROUP BY sub.subject_id
+                    ORDER BY total_students DESC, sub.name
+                    LIMIT 3;
+                """;
+
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
     RowMapper<Subject> rowMapper = (rs, rowNum) -> {
         Subject subject = new Subject();
 
@@ -73,8 +87,17 @@ public class SubjectDAO implements DAO<Subject> {
                 .setName(rs.getString("name"))
                 .setCredits(rs.getInt("credits"));
 
+        int totalStudents = 0;
+
+        try {
+            totalStudents = rs.getInt("total_students");
+        } catch (Exception ignored) {
+        }
+        subject.setTotalStudents(totalStudents);
+
         return subject;
     };
+
 
     @Override
     public void delete(Long id) {

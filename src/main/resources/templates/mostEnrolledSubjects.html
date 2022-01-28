@@ -1,17 +1,35 @@
-<h1 class="title">Top 3 most enrolled subjects</h1>
-<div class="table">
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Number of enrolled students</th>
-        </tr>
-        {{#each subjects}}
-        <tr>
-            <td>{{name}}</td>
-            <td>{{total_students}}</td>
-        </tr>
-        {{else}}
-        <h2>No subjects yet...</h2>
-        {{/each}}
-    </table>
-</div>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <h1 class="title">Top 3 most enrolled subjects</h1>
+    <div class="table">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Number of enrolled students</th>
+            </tr>
+            <tr th:each="sub: ${subjects}">
+                <td th:text="${sub.name}"></td>
+                <td th:text="${sub.totalStudents}"></td>
+            </tr>
+            <h2 th:if="${subjects == null}">No subjects yet...</h2>
+        </table>
+    </div>
+</main>
+</body>
+
+</html>

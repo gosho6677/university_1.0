@@ -28,7 +28,7 @@
             <tr th:each="t: ${teachers}">
                 <td th:text="${t.title}"></td>
                 <td th:text="${t.firstName} + ' ' + ${t.lastName}"></td>
-                <td th:text="${t.taughtSubjects} ?: 'UNKNOWN'"></td>
+                <td th:text="${t.numberOfTaughtSubjects} ?: 'UNKNOWN'"></td>
             </tr>
             <p th:if="${teachers == null}">No teachers in database. <a href="/records/create/teacher">Please add some...</a></p>
 

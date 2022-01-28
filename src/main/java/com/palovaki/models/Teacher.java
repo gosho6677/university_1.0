@@ -1,9 +1,15 @@
 package com.palovaki.models;
 
+import java.util.Objects;
+
 public class Teacher extends Person {
     private String title;
     private Long id;
-    private int taughtSubjects;
+    private int numberOfTaughtSubjects;
+
+    // refactor later
+    private String taughtSubject;
+    private int totalStudentsForSubject;
 
 
     public Teacher() {
@@ -32,21 +38,42 @@ public class Teacher extends Person {
         return this;
     }
 
-    public int getTaughtSubjects() {
-        return taughtSubjects;
+    public int getNumberOfTaughtSubjects() {
+        return numberOfTaughtSubjects;
     }
 
-    public Teacher setTaughtSubjects(int taughtSubjects) {
-        this.taughtSubjects = taughtSubjects;
+    public Teacher setNumberOfTaughtSubjects(int numberOfTaughtSubjects) {
+        this.numberOfTaughtSubjects = numberOfTaughtSubjects;
         return this;
     }
+
+    public int getTotalStudentsForSubject() {
+        return totalStudentsForSubject;
+    }
+
+    public Teacher setTotalStudentsForSubject(int totalStudentsForSubject) {
+        this.totalStudentsForSubject = totalStudentsForSubject;
+        return this;
+    }
+
+    public String getTaughtSubject() {
+        return taughtSubject;
+    }
+
+    public Teacher setTaughtSubject(String taughtSubject) {
+        this.taughtSubject = taughtSubject;
+        return this;
+    }
+
 
     @Override
     public String toString() {
         return "Teacher{" +
                 "title='" + title + '\'' +
                 ", id=" + id +
-                ", taughtSubjects=" + taughtSubjects +
+                ", numberOfTaughtSubjects=" + numberOfTaughtSubjects +
+                ", taughtSubject='" + taughtSubject + '\'' +
+                ", totalStudentsForSubject=" + totalStudentsForSubject +
                 '}';
     }
 

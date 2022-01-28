@@ -1,19 +1,35 @@
-<h1 class="title">Teachers and subjects</h1>
-<div class="table">
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Subject: Number of students</th>
-        </tr>
-        {{#each teachers}}
-        <tr>
-            <td>{{full_name}}</td>
-            <td>
-                {{subjects}}
-            </td>
-        </tr>
-        {{else}}
-        <h2>No teachers yet...</h2>
-        {{/each}}
-    </table>
-</div>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navigation.css">
+    <title>Computer Science faculty</title>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/navbar::navbar"></div>
+</header>
+<main>
+    <h1 class="title">Teachers and subjects</h1>
+    <div class="table">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Subject: Number of students</th>
+            </tr>
+            <tr th:each="t: ${teachers}">
+                <td th:text="${t.value.firstName} + ' ' + ${t.value.lastName}"></td>
+                <td th:text="${t.value.taughtSubject}"></td>
+            </tr>
+            <h2 th:if="${teachers == null}">No teachers yet...</h2>
+        </table>
+    </div>
+</main>
+</body>
+
+</html>

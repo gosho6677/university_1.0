@@ -123,6 +123,28 @@ public class TeacherDAO implements DAO<Teacher> {
         });
     }
 
+    public List<Teacher> getTopThree() {
+        String sql = """
+                    SELECT t.first_name, t.last_name, COUNT(DISTINCT st.student_id) as total_students
+                    FROM enrollments e, students st, teachers t, subjects sub
+                    WHERE st.student_id = e.fk_student_id AND sub.subject_id = fk_subject_id AND sub.fk_teacher_id = t.teacher_id
+                    GROUP BY t.teacher_id
+                    ORDER BY total_students DESC
+                    LIMIT 3;
+                """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Teacher teacher = new Teacher();
+
+            teacher
+                    .setTotalStudentsForSubject(rs.getInt("total_students"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"));
+
+            return teacher;
+        });
+    }
+
     @Override
     public void delete(Long id) {
 

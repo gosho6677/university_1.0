@@ -39,4 +39,10 @@ public class TeacherController {
 
         return "teachersAndSubjects";
     }
+
+    @GetMapping("/top-three-teachers")
+    public String GetTopThreeTeachers(Model model) {
+        model.addAttribute("teachers", teacherDAO.getTopThree());
+        return "topThreeTeachers";
+    }
 }
